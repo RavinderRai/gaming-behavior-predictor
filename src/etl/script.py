@@ -21,10 +21,16 @@ s3_client = boto3.client('s3')
 obj = s3_client.get_object(Bucket=args['INPUT_BUCKET'], Key=args['INPUT_KEY'])
 df = pd.read_csv(StringIO(obj['Body'].read().decode('utf-8')))
 
-# Perform transformations
+#target label encoding
+df['EngagementLevel'] = df['EngagementLevel'].map({'Low': 0, 'Medium': 1, 'High': 2})
+
+# Perform transformations to independent variables
 df['Gender'] = df['Gender'].map({'Male': 1, 'Female': 0})
 df['GameDifficulty'] = df['GameDifficulty'].map({'Easy': 0, 'Medium': 1, 'Hard': 2})
 df_encoded = pd.get_dummies(df, columns=['Location', 'GameGenre'], drop_first=True)
+
+encoded_cols = list(set(df_encoded.columns) - set(df.columns))
+df_encoded[encoded_cols] = df_encoded[encoded_cols].astype(int)
 
 # Convert the DataFrame back to CSV
 csv_buffer = StringIO()
