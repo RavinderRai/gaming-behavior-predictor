@@ -52,8 +52,8 @@ def _save_splits(base_directory, X_train, y_train, X_test, y_test):
     and the target variable, and saves each one of the split
     sets to disk.
     """
-    train = np.concatenate((X_train, y_train), axis=1)
-    test = np.concatenate((X_test, y_test), axis=1)
+    train = pd.concat([X_train, y_train], axis=1)
+    test = pd.concat([X_test, y_test], axis=1)
 
     train_path = Path(base_directory) / "train"
     test_path = Path(base_directory) / "test"
