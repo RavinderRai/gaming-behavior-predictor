@@ -61,8 +61,8 @@ def _save_splits(base_directory, X_train, y_train, X_test, y_test):
     train_path.mkdir(parents=True, exist_ok=True)
     test_path.mkdir(parents=True, exist_ok=True)
 
-    pd.DataFrame(train).to_csv(train_path / "train.csv", header=False, index=False)
-    pd.DataFrame(test).to_csv(test_path / "test.csv", header=False, index=False)
+    pd.DataFrame(train).to_csv(train_path / "train.csv", header=True, index=False)
+    pd.DataFrame(test).to_csv(test_path / "test.csv", header=True, index=False)
 
 
 if __name__ == "__main__":
