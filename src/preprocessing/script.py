@@ -13,7 +13,7 @@ def preprocess(base_directory):
     # the only transformation we need to do is drop the player id and split the data
     # everything else was done in the etl script
     
-    df.drop(columns=['PlayerID'])
+    df = df.drop(columns=['PlayerID'])
     df_train, df_test = train_test_split(df, test_size=0.2)
 
     y_train = df_train.EngagementLevel
@@ -48,9 +48,9 @@ def _read_data_from_input_csv_files(base_directory):
 def _save_splits(base_directory, X_train, y_train, X_test, y_test):
     """Save data splits to disk.
 
-    This function concatenates the transformed features
-    and the target variable, and saves each one of the split
-    sets to disk.
+    This function combines the transformed features
+    and the target variable, and saves them separately
+    as training and testing sets.
     """
     train = pd.concat([X_train, y_train], axis=1)
     test = pd.concat([X_test, y_test], axis=1)

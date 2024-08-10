@@ -29,11 +29,11 @@ def train(model_directory, train_path, test_path, learning_rate=0.1, max_depth=7
     accuracy = accuracy_score(y_test, y_pred)
     kappa = cohen_kappa_score(y_test, y_pred)
 
-    model_path = os.path.join(model_directory, "model.joblib")
-    joblib.dump(model, model_path)
+    print("kappa score:", accuracy)
+    print("kappa score:", kappa)
 
-    with tarfile.open(os.path.join(model_directory, "model.tar.gz"), "w:gz") as tar:
-        tar.add(model_path, arcname=os.path.basename(model_path))
+    model_path = (Path(model_directory) / "game-behavior-model")
+    model.save_model(model_path)
 
 
 
@@ -54,3 +54,9 @@ if __name__ =='__main__':
         learning_rate=args.learning_rate,
         max_depth=args.max_depth,
     )
+
+    model_path = Path(os.environ["SM_MODEL_DIR"])
+    tar_path = model_path / "model.tar.gz"
+
+    with tarfile.open(tar_path, "w:gz") as tar:
+        tar.add(model_path / "game-behavior-model", arcname="game-behavior-model")
